@@ -1,0 +1,9 @@
+Flask==3.0.3
+google-cloud-speech
+google-cloud-storage
+google-cloud-secret-manager
+google-cloud-aiplatform
+google-cloud-language
+gunicorn
+Werkzeug
+requests
