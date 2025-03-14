@@ -1,144 +1,138 @@
-# Audio Processing Web Application
+# Audio Processing Web Application with Sentiment Analysis
 
-This project is a Flask-based web application for recording, uploading, and processing audio files. The application uses Google Cloud's Vertex AI Generative Models to transcribe audio and perform sentiment analysis.
+## Overview
+
+A Flask-based web application that provides real-time audio recording, transcription, and sentiment analysis using Google Cloud's Vertex AI. The application allows users to record audio through their browser and receive both transcription and sentiment analysis results.
 
 ## Features
 
-- **Record Audio**: Record audio directly from the browser.
-- **Upload Audio**: Upload `.wav` audio files for processing.
-- **Transcription**: Generate transcriptions of uploaded audio.
-- **Sentiment Analysis**: Analyze the sentiment of the audio content.
-- **Results Display**: View transcription and sentiment analysis results in the browser.
-- **Downloadable Results**: Save the processed results as text files.
+- **Real-time Audio Recording**: Browser-based audio capture using MediaRecorder API
+- **Transcription Service**: Converts speech to text using Vertex AI
+- **Sentiment Analysis**: Analyzes the emotional content of the speech
+- **File Management**: Stores and manages audio files and analysis results
+- **Interactive UI**: Clean, responsive interface with real-time recording timer
+- **Results History**: View and manage previous recordings and their analyses
 
-## Technology Stack
+## Tech Stack
 
-- **Backend**: Flask
-- **Frontend**: HTML, CSS, JavaScript
-- **Cloud Services**: Google Cloud Vertex AI Generative Models
+### Backend
 
-## Installation
+- Python 3.11+
+- Flask 3.0.3
+- Google Cloud Vertex AI
+- Google Cloud Speech-to-Text
+- Google Cloud Storage
+- Google Cloud Language API
+
+### Frontend
+
+- HTML5/CSS3
+- JavaScript (MediaRecorder API)
+- Responsive Design
+- Browser Audio API
+
+## Project Structure
+
+```
+cap5930_project3/
+├── main.py                  # Flask application core
+├── requirements.txt         # Python dependencies
+├── Dockerfile              # Container configuration
+├── static/
+│   └── script.js           # Frontend JavaScript
+├── templates/
+│   └── index.html          # Main web interface
+└── uploads/                # Stored audio files and results
+```
+
+## Setup Instructions
 
 ### Prerequisites
 
-- Python 3.8 or higher
-- Google Cloud project with Vertex AI enabled
-- `keys/` folder containing your Google Cloud service account key
+1. Python 3.11 or higher
+2. Google Cloud Account with enabled APIs:
+   - Vertex AI
+   - Cloud Storage
+   - Cloud Language
 
-### Setup
+### Local Development
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/your-repo-name.git
-   cd your-repo-name
-   ```
+1. Clone the repository
 
-2. Create a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # For Windows: venv\Scripts\activate
-   ```
-
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Add your Google Cloud service account key to the `keys/` folder.
-
-5. Create a `.env` file for environment variables:
-   ```
-   GOOGLE_APPLICATION_CREDENTIALS=keys/your-service-account-key.json
-   FLASK_ENV=production
-   ```
-
-6. Start the Flask application:
-   ```bash
-   python main.py
-   ```
-
-7. Open the application in your browser:
-   ```
-   http://127.0.0.1:8080
-   ```
-
-## Deployment
-
-This application is designed to be deployed on **Google Cloud Run**. Follow these steps to deploy:
-
-1. **Authenticate with Google Cloud:**
-   ```bash
-   gcloud auth login
-   gcloud config set project your-project-id
-   ```
-
-2. **Build the Docker Image:**
-   ```bash
-   gcloud builds submit --tag gcr.io/your-project-id/audio-processing-app
-   ```
-
-3. **Deploy to Cloud Run:**
-   ```bash
-   gcloud run deploy audio-processing-app \
-       --image gcr.io/your-project-id/audio-processing-app \
-       --platform managed \
-       --region us-central1 \
-       --allow-unauthenticated
-   ```
-
-4. **Access the Application:**
-   Use the URL provided by Cloud Run to access your application.
-
-## File Structure
-
-```
-project-folder
-│
-├── main.py                  # Flask application
-├── requirements.txt         # Python dependencies
-├── Dockerfile               # Docker configuration for deployment
-├── templates/               # HTML templates
-│   └── index.html
-├── static/                  # Static files (CSS, JS)
-│   ├── style.css
-│   └── script.js
-├── uploads/                 # Uploaded audio files and results
-└── keys/                    # Google Cloud service account key (ignored by Git)
+```bash
+git clone [repository-url]
+cd cap5930_project3
 ```
 
-## Usage
+2. Install dependencies
 
-1. Record or upload audio files using the web interface.
-2. View the transcription and sentiment analysis results.
-3. Download the results for further use.
+```bash
+pip install -r requirements.txt
+```
+
+3. Set up Google Cloud credentials
+
+```bash
+export GOOGLE_APPLICATION_CREDENTIALS="path/to/your/credentials.json"
+```
+
+4. Run the application
+
+```bash
+python main.py
+```
+
+5. Access at `http://localhost:8080`
+
+### Docker Deployment
+
+```bash
+docker build -t audio-processing-app .
+docker run -p 8080:8080 audio-processing-app
+```
+
+## API Endpoints
+
+- `GET /`: Main application interface
+- `POST /upload`: Handle audio file uploads
+- `GET /uploads/<filename>`: Serve stored files
+
+## Usage Guide
+
+1. Click "Record an Audio" in the sidebar
+2. Press the "Record" button to start recording
+3. Speak into your microphone
+4. Press "Stop" to end recording
+5. Wait for processing (transcription and sentiment analysis)
+6. View results in the browser
 
 ## Environment Variables
 
-The application uses the following environment variables:
+- `PORT`: Server port (default: 8080)
+- `GOOGLE_APPLICATION_CREDENTIALS`: Path to GCP credentials
+- `FLASK_ENV`: Development/Production mode
 
-- `GOOGLE_APPLICATION_CREDENTIALS`: Path to the Google Cloud service account key.
-- `FLASK_ENV`: Set to `production` or `development`.
+## Security Considerations
 
-## Security
-
-- Ensure that the `keys/` folder and sensitive files are included in `.gitignore`.
-- Do not expose your Google Cloud credentials in the repository.
+- Audio files are stored securely
+- Google Cloud credentials are protected
+- Input validation for file uploads
+- Secure file serving implementation
 
 ## Contributing
 
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository.
-2. Create a feature branch.
-3. Commit your changes.
-4. Open a pull request.
+1. Fork the repository
+2. Create a feature branch
+3. Commit changes
+4. Push to branch
+5. Submit a pull request
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+MIT License
 
-## Acknowledgements
+## Acknowledgments
 
-- Google Cloud Vertex AI
+- Google Cloud Platform
 - Flask Framework
-
+- Web Audio API Contributors
